@@ -1,0 +1,31 @@
+services:
+  crm-migrate:
+    image: node:22-bookworm-slim
+    restart: "no"
+    working_dir: /workspace
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
+    volumes:
+      - ../../supabase:/workspace/supabase:ro
+    command:
+      - sh
+      - -lc
+      - npx --yes supabase@3 db push --yes --remote="$$DATABASE_URL"
+    depends_on:
+      auth:
+        condition: service_healthy
+
+  crm-web:
+    image: ${APP_IMAGE:?Set APP_IMAGE to your Docker Hub image}
+    container_name: crm-web
+    restart: unless-stopped
+    environment:
+      SUPABASE_URL: ${SUPABASE_PUBLIC_URL}
+      SUPABASE_ANON_KEY: ${ANON_KEY}
+    ports:
+      - ${APP_PORT:-8080}:80
+    depends_on:
+      crm-migrate:
+        condition: service_completed_successfully
+      api-gw:
+        condition: service_healthy

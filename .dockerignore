@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.supabase-upstream
+.env
+.env.*
+!.env.example
+supabase/.temp
+deploy/supabase/.env
+deploy/supabase/.env.*
+*.pdf
+*.docx
+*.log
+npm-debug.log*

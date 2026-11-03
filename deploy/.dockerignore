@@ -1,0 +1,10 @@
+node_modules
+dist
+.env
+.env.*
+!.env.example
+.supabase-upstream
+.git
+supabase/.temp
+Тестовое задание мини-CRM «Объекты и задачи».docx.pdf
+docs
