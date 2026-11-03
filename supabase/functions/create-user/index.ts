@@ -1,6 +1,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { withCors } from '../_shared/cors.ts';
 
-Deno.serve(async (request) => {
+Deno.serve(withCors(async (request) => {
   if (request.method !== 'POST') return new Response('Method not allowed', { status: 405 });
   const url = Deno.env.get('SUPABASE_URL')!;
   const anonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
@@ -64,4 +65,4 @@ Deno.serve(async (request) => {
     return Response.json({ error: 'Аккаунт не создан: ' + insertError.message }, { status: 500 });
   }
   return Response.json({ id: created.user.id, email, full_name: fullName, role }, { status: 201 });
-});
+}));

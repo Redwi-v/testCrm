@@ -1,5 +1,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-Deno.serve(async (request) => {
+import { withCors } from '../_shared/cors.ts';
+
+Deno.serve(withCors(async (request) => {
   if (request.method !== 'POST') return new Response('Method not allowed', { status: 405 });
   const auth = request.headers.get('Authorization');
   if (!auth) return Response.json({ error: 'Требуется вход' }, { status: 401 });
@@ -26,4 +28,4 @@ Deno.serve(async (request) => {
     .eq('id', data.user.id);
   if (profileError) return Response.json({ error: profileError.message }, { status: 500 });
   return Response.json({ ok: true });
-});
+}));

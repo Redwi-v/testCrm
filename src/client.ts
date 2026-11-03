@@ -14,5 +14,6 @@ const url =
     (import.meta.env.VITE_SUPABASE_URL as string | undefined),
   key =
     window.__APP_CONFIG__?.supabaseAnonKey ||
+    (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined) ||
     (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined);
 export const client = url && key ? createClient(url, key) : null;

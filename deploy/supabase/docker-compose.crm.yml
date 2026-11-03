@@ -23,8 +23,8 @@ services:
     container_name: crm-web
     restart: unless-stopped
     environment:
-      SUPABASE_URL: ${SUPABASE_PUBLIC_URL}
-      SUPABASE_ANON_KEY: ${ANON_KEY}
+      SUPABASE_URL: ${APP_SUPABASE_URL:-${SUPABASE_PUBLIC_URL}}
+      SUPABASE_ANON_KEY: ${APP_SUPABASE_PUBLISHABLE_KEY:-${ANON_KEY}}
     ports:
       - ${APP_PORT:-8080}:80
     depends_on:
