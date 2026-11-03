@@ -16,7 +16,10 @@ services:
         condition: service_healthy
 
   crm-web:
-    image: ${APP_IMAGE:?Set APP_IMAGE to your Docker Hub image}
+    image: ${APP_IMAGE:-stroi-crm:local}
+    build:
+      context: ../..
+      dockerfile: Dockerfile
     container_name: crm-web
     restart: unless-stopped
     environment:
